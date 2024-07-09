@@ -1,0 +1,149 @@
+body {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  /* background-color: #f0f2f5; */
+  font-family: Arial, sans-serif;
+}
+
+.App {
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 670px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  /* height: 100%; */
+  background-color: hsl(0, 24%, 96%);
+  padding: 30px;
+  border-radius: 8px;
+  margin: 130px;
+  margin-top: 127px;
+  margin-left: 240px;
+}
+
+.headline-section, .message-section, .mobile-section, .number-count-section {
+  margin-bottom: 20px;
+}
+
+.headline-section label, .message-section label, .mobile-section label, .number-count-section label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+label{
+  font-size: 19;
+}
+
+
+.headline-section input, .message-section textarea, .mobile-section textarea, .number-count-section input {
+  width: 100%;
+  /* padding: 8px; */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+textarea{
+  height: 55px;
+}
+
+input{ 
+  height: 30px
+}
+small{
+  color: rgb(198, 67, 67);
+}
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: center;
+  margin-top: 5px;
+}
+
+.submit-button:hover {
+  background-color: darkgreen;
+}
+
+.image-upload-section, .pdf-dp-upload-section, .button-section {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.image-column, .pdf-dp-column, .button-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.image-upload, .pdf-upload-section, .dp-upload-section, .reply-button, .cta-button {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.send-conatiner {
+  display: flex;
+  /* flex-direction: row; */
+  flex-wrap: wrap;
+}
+
+
+.image-upload input, .pdf-upload-section input, .dp-upload-section input, .reply-button input, .cta-button input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.pdf-upload input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 9px;
+}
+
+.text {
+  display: flex;
+  margin-left: 10px;
+}
+
+.pdf-upload small {
+  display: flex;
+  font-size: 0.8em;
+  color: rgb(215, 83, 83);
+  margin-left: 11px;
+}
+
+.image-upload small, .pdf-upload-section small, .dp-upload-section small {
+  font-size: 0.8em;
+  color: rgb(215, 83, 83);
+}
+
+@media (max-width: 480px) {
+  .image-upload-section, .pdf-dp-upload-section, .button-section {
+    flex-direction: column;
+  }
+
+  .image-column, .pdf-dp-column, .button-column {
+    margin-bottom: 20px;
+  }
+}
