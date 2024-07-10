@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SendWhatsapp, Reseller, CampaignWise, SendNews, ContactUs, User
+from .models import SendWhatsapp, Reseller, CampaignWise, SendNews, ContactUs, User, Report
 
 class SendWhatsappSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,4 +29,8 @@ class ContactUsSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+        fields = '__all__'
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
         fields = '__all__'

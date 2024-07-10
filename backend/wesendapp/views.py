@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import SendWhatsapp, Reseller, CampaignWise, SendNews, ContactUs, User
-from .serializers import SendWhatsappSerializer, ResellerSerializer, CampaignWiseSerializer, SendNewsSerializer, ContactUsSerializer, UserSerializer
+from .models import SendWhatsapp, Reseller, CampaignWise, SendNews, ContactUs, User, Report
+from .serializers import SendWhatsappSerializer, ResellerSerializer, CampaignWiseSerializer, SendNewsSerializer, ContactUsSerializer, UserSerializer, ReportSerializer
 
 
 class SendWhatsappViewSet(viewsets.ModelViewSet):
@@ -26,3 +26,7 @@ class ContactUsViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class ReportViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = ReportSerializer
