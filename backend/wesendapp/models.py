@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 class SendWhatsapp(models.Model):
     headline = models.CharField(max_length=255, null=True, blank=True)
@@ -62,20 +63,61 @@ class ContactUs(models.Model):
     email_id = models.EmailField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-class User(models.Model):
+    def create_superuser(self, email_id, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(email_id, password, **extra_fields)
+
+
+class Users(AbstractBaseUser, PermissionsMixin):
     STATUS_CHOICES = [
         ('Active', 'Active'),
         ('Inactive', 'Inactive'),
     ]
 
-    fullname = models.CharField(max_length=255, null=True, blank=True)
-    email_id = models.EmailField(null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(unique=True, null=True, blank=True)
     mobile = models.CharField(max_length=15, null=True, blank=True)
-    profile_pic = models.ImageField(upload_to='profiles/', null=True, blank=True)
+    profile_pic = models.ImageField(upload_to='Files/profiles/', null=True, blank=True)
     username = models.CharField(max_length=150, unique=True, null=True, blank=True)
     company = models.CharField(max_length=255, null=True, blank=True)
-    status = models.CharField(max_length=8, choices=STATUS_CHOICES, default='Active', null=True, blank=True)
+    status = models.CharField(max_length=8, choices=STATUS_CHOICES, default='Active')
+    password = models.CharField(max_length=255, null=True, blank=True)
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'  # Corrected to 'email' instead of 'email_id'
+    REQUIRED_FIELDS = []
+
+     # Custom related names to avoid clashes with auth.User model
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='wesendapp_user_groups',
+        blank=True,
+        verbose_name='groups',
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='wesendapp_user_permissions',
+        blank=True,
+        verbose_name='user permissions',
+    )
+
+
 
 class Report(models.Model):
     id = models.AutoField(primary_key=True)
