@@ -29,6 +29,7 @@ class Reseller(models.Model):
     profile_pic = models.ImageField(upload_to='Files/profile_pics/', null=True, blank=True)
     username = models.CharField(max_length=150, unique=True, null=True, blank=True)
     company = models.CharField(max_length=255, null=True, blank=True)
+    credit = models.IntegerField(max_length=30, null=True, blank=True)
     status = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):

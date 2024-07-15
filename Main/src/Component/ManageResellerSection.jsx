@@ -1,31 +1,26 @@
-import React, { useState } from 'react';
-import Lottie from 'lottie-react'
-import Eye from '../eye.json'
-import '../ManageResellerSection.css'; 
- 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Lottie from 'lottie-react';
+import Eye from '../eye.json';
+import '../ManageResellerSection.css';
 import { FaEye } from "react-icons/fa6";
 import { BsFeather } from "react-icons/bs";
 import { IoMdPersonAdd } from "react-icons/io";
 import { BsFillArchiveFill } from "react-icons/bs";
 
 const ManageResellerSection = ({ handleSubsectionClick }) => {
-  const [data, setData] = useState([
-    { id: 1, col1: '1', col2: 'Reseller 1', col3: 'John Doe', col4: 'john.doe@example.com', col5: '100', col6: 'Active', col7: 'Edit' },
-    { id: 2, col1: '2', col2: 'Reseller 2', col3: 'Jane Smith', col4: 'jane.smith@example.com', col5: '50', col6: 'Inactive', col7: 'Edit' },
-    { id: 3, col1: '3', col2: 'Reseller 3', col3: 'Adam Johnson', col4: 'adam.johnson@example.com', col5: '75', col6: 'Active', col7: 'Edit' },
-    // Additional data rows as needed
-  ]);
-  
+  const [data, setData] = useState([]);
   const [newReseller, setNewReseller] = useState({
-    col1: '', // Sr No. (Auto-generated)
-    col2: '', // Reseller Name
-    col3: '', // Full Name
-    col4: '', // Email
-    col5: '', // Credits
-    col6: 'Active', // Status (default: Active)
-    col7: 'Edit', // Action (default: Edit)
+    full_name: '',
+    username: '',
+    email_id: '',
+    mobile: '',
+    profile_pic: null,
+    company: '',
+    credit: '',
+    status: 'Active',
   });
-  
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [showDataPopup, setShowDataPopup] = useState(false);
@@ -33,39 +28,68 @@ const ManageResellerSection = ({ handleSubsectionClick }) => {
   const [selectedReseller, setSelectedReseller] = useState(null);
   const [editedReseller, setEditedReseller] = useState(null); // State to hold edited data
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/reseller/');
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   // Function to handle adding a new reseller
-  const handleAddReseller = (e) => {
+  const handleAddReseller = async (e) => {
     e.preventDefault();
-    const newId = data.length + 1;
-    const updatedData = [...data, {
-      id: newId,
-      col1: newId.toString(), // Auto-generated Sr No.
-      col2: newReseller.col2,
-      col3: newReseller.col3,
-      col4: newReseller.col4,
-      col5: newReseller.col5,
-      col6: newReseller.col6,
-      col7: newReseller.col7
-    }];
-    setData(updatedData);
-    setNewReseller({
-      col1: '', // Reset Sr No. for next addition
-      col2: '', // Reseller Name
-      col3: '', // Full Name
-      col4: '', // Email
-      col5: '', // Credits
-      col6: 'Active', // Status (default: Active)
-      col7: 'Edit', // Action (default: Edit)
-    });
+    const formData = new FormData();
+    formData.append('full_name', newReseller.full_name);
+    formData.append('username', newReseller.username);
+    formData.append('email_id', newReseller.email_id);
+    formData.append('mobile', newReseller.mobile);
+    formData.append('profile_pic', newReseller.profile_pic);      
+    formData.append('company', newReseller.company);
+    formData.append('credit', newReseller.credit);
+    formData.append('status', newReseller.status);
+
+    try {
+      await axios.post('http://127.0.0.1:8000/api/reseller/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      fetchData(); // Refresh data after adding new entry
+      setNewReseller({
+        full_name: '',
+        username: '',
+        email_id: '',
+        mobile: '',
+        profile_pic: null, 
+        company: '',
+        credit: '',
+        status: 'Active',
+      });
+    } catch (error) {
+      console.error('Error adding new data:', error);
+    }
   };
 
   // Function to handle input change for adding new reseller
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewReseller(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    const { name, value, files } = e.target;
+    if (name === 'profile_pic') {
+      setNewReseller((prevState) => ({
+        ...prevState,
+        [name]: files[0],
+      }));
+    } else {
+      setNewReseller((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   // Function to handle search term change
@@ -92,11 +116,26 @@ const ManageResellerSection = ({ handleSubsectionClick }) => {
   };
 
   // Function to handle saving edited data
-  const handleSaveChanges = () => {
-    // Update the data array with the edited reseller
-    const updatedData = data.map(item => (item.id === editedReseller.id ? editedReseller : item));
-    setData(updatedData);
-    handleClosePopup(); // Close the edit popup after saving
+  const handleSaveChanges = async (e) => {
+    e.preventDefault();
+    const updatedResellerData = {
+      full_name: editedReseller.full_name,
+      email_id: editedReseller.email_id,
+      mobile: editedReseller.mobile,
+      profile_pic: editedReseller.profile_pic,
+      username: editedReseller.username,
+      company: editedReseller.company,
+      credit: editedReseller.credit,
+      status: editedReseller.status,
+    };
+
+    try {
+      await axios.put(`http://127.0.0.1:8000/api/reseller/${editedReseller.id}/`, updatedResellerData);
+      fetchData(); // Refresh data after editing entry
+      handleClosePopup(); // Close the edit popup after saving
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
   };
 
   // Function to handle closing popup
@@ -108,15 +147,19 @@ const ManageResellerSection = ({ handleSubsectionClick }) => {
   };
 
   // Function to handle deleting a reseller
-  const handleDeleteReseller = (id) => {
-    const updatedData = data.filter(item => item.id !== id);
-    setData(updatedData);
+  const handleDeleteReseller = async (id) => {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/reseller/${id}/`);
+      fetchData(); // Refresh data after deleting entry
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
   };
 
   // Function to filter data based on search term and status filter
   const filteredData = data.filter(item => {
-    const matchesSearchTerm = searchTerm === '' || item.col4.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatusFilter = statusFilter === '' || item.col6 === statusFilter;
+    const matchesSearchTerm = searchTerm === '' || item.email_id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatusFilter = statusFilter === '' || item.status === statusFilter;
     return matchesSearchTerm && matchesStatusFilter;
   });
 
@@ -130,11 +173,13 @@ const ManageResellerSection = ({ handleSubsectionClick }) => {
             {showDataPopup && (
               <div className="popup-content">
                 <h2>Reseller Data</h2>
-                <p><strong>Reseller Name:</strong> {selectedReseller.col2}</p>
-                <p><strong>Full Name:</strong> {selectedReseller.col3}</p>
-                <p><strong>Email:</strong> {selectedReseller.col4}</p>
-                <p><strong>Credits:</strong> {selectedReseller.col5}</p>
-                <p><strong>Status:</strong> {selectedReseller.col6}</p>
+                <p><strong>Full Name:</strong> {selectedReseller.full_name}</p>
+                <p><strong>Username:</strong> {selectedReseller.username}</p>
+                <p><strong>Email:</strong> {selectedReseller.email_id}</p>
+                <p><strong>Mobile:</strong> {selectedReseller.mobile}</p>
+                <p><strong>Company:</strong> {selectedReseller.company}</p>                
+                <p><strong>Credits:</strong> {selectedReseller.credit}</p>
+                <p><strong>Status:</strong> {selectedReseller.status}</p>
                 <button onClick={handleClosePopup}>Close</button>
               </div>
             )}
@@ -144,24 +189,36 @@ const ManageResellerSection = ({ handleSubsectionClick }) => {
                 <h2>Edit Reseller</h2>
                 <form onSubmit={handleSaveChanges}>
                   <label>
-                    Reseller Name:
-                    <input type="text" name="col2" value={editedReseller.col2} onChange={(e) => setEditedReseller({ ...editedReseller, col2: e.target.value })} required />
-                  </label>
-                  <label>
                     Full Name:
-                    <input type="text" name="col3" value={editedReseller.col3} onChange={(e) => setEditedReseller({ ...editedReseller, col3: e.target.value })} required />
+                    <input type="text" name="full_name" value={editedReseller.full_name} onChange={(e) => setEditedReseller({ ...editedReseller, full_name: e.target.value })} required />
                   </label>
                   <label>
                     Email:
-                    <input type="email" name="col4" value={editedReseller.col4} onChange={(e) => setEditedReseller({ ...editedReseller, col4: e.target.value })} required />
+                    <input type="email" name="email_id" value={editedReseller.email_id} onChange={(e) => setEditedReseller({ ...editedReseller, email_id: e.target.value })} required />
+                  </label>
+                  <label>
+                    Mobile:
+                    <input type="text" name="mobile" value={editedReseller.mobile} onChange={(e) => setEditedReseller({ ...editedReseller, mobile: e.target.value })} required />
+                  </label>
+                  <label>
+                    Profile Pic:
+                    <input type="text" name="profile_pic" value={editedReseller.profile_pic} onChange={(e) => setEditedReseller({ ...editedReseller, profile_pic: e.target.value })} required />
+                  </label>
+                  <label>
+                    Company:
+                    <input type="text" name="company" value={editedReseller.company} onChange={(e) => setEditedReseller({ ...editedReseller, company: e.target.value })} required />
+                  </label>
+                  <label>
+                    Username:
+                    <input type="text" name="username" value={editedReseller.username} onChange={(e) => setEditedReseller({ ...editedReseller, username: e.target.value })} required />
                   </label>
                   <label>
                     Credits:
-                    <input type="number" name="col5" value={editedReseller.col5} onChange={(e) => setEditedReseller({ ...editedReseller, col5: e.target.value })} required />
+                    <input type="number" name="credit" value={editedReseller.credit} onChange={(e) => setEditedReseller({ ...editedReseller, credit: e.target.value })} />
                   </label>
                   <label>
                     Status:
-                    <select name="col6" value={editedReseller.col6} onChange={(e) => setEditedReseller({ ...editedReseller, col6: e.target.value })}>
+                    <select name="status" value={editedReseller.status} onChange={(e) => setEditedReseller({ ...editedReseller, status: e.target.value })}>
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
                     </select>
@@ -175,24 +232,44 @@ const ManageResellerSection = ({ handleSubsectionClick }) => {
         </div>
       )}
 
-      {/* Other content of your component */}
-      <div className="section">
+      <h4>Manage Resellers</h4>
+      <div className="add-new-reseller">
         <form onSubmit={handleAddReseller}>
           <label>
-            Reseller Name:
-            <input type="text" name="col2" value={newReseller.col2} onChange={handleInputChange} required />
+            Full Name:
+            <input type="text" name="full_name" value={newReseller.full_name} onChange={handleInputChange} required />
           </label>
           <label>
-            Full Name:
-            <input type="text" name="col3" value={newReseller.col3} onChange={handleInputChange} required />
+            Username:
+            <input type="text" name="username" value={newReseller.username} onChange={handleInputChange} required />
           </label>
           <label>
             Email:
-            <input type="email" name="col4" value={newReseller.col4} onChange={handleInputChange} required />
+            <input type="email" name="email_id" value={newReseller.email_id} onChange={handleInputChange} required />
+          </label>
+          <label>
+            Mobile:
+            <input type="text" name="mobile" value={newReseller.mobile} onChange={handleInputChange} required />
+          </label>
+          <label>
+            Company:
+            <input type="text" name="company" value={newReseller.company} onChange={handleInputChange} required />
+          </label>
+          <label>
+            Profile Pic
+            <input type="file" accept="image/jpeg, image/png" name="profile_pic" onChange={handleInputChange} />
+            <span className="small-text">Photo should be smaller than 500 KB. Only JPG and PNG are allowed.</span>
           </label>
           <label>
             Credits:
-            <input type="number" name="col5" value={newReseller.col5} onChange={handleInputChange} required />
+            <input type="number" name="credit" value={newReseller.credit} onChange={handleInputChange} />
+          </label>
+          <label>
+            Status:
+            <select name="status" value={newReseller.status} onChange={handleInputChange}>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
           </label>
           <button type="submit"><IoMdPersonAdd /> Add New Reseller</button>
         </form>
@@ -219,25 +296,31 @@ const ManageResellerSection = ({ handleSubsectionClick }) => {
             <thead>
               <tr>
                 <th>Sr No.</th>
-                <th>User Type</th>
-                <th>Reseller Name</th>
+                {/* <th>User Type</th> */}                
                 <th>Full Name</th>
+                <th>Username</th>
                 <th>Email</th>
+                <th>Mobile</th>
+                {/* <th>Profile Pic</th> */}
+                <th>Company</th>
                 <th>Credits</th>
                 <th>Status</th>
-                <th>Action </th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredData.map(row => (
+              {filteredData.map((row, index) => (
                 <tr key={row.id}>
-                  <td>{row.col1}</td>
-                  <td>Reseller</td>
-                  <td>{row.col2}</td>
-                  <td>{row.col3}</td>
-                  <td>{row.col4}</td>
-                  <td>{row.col5}</td>
-                  <td>{row.col6}</td>
+                  <td>{index + 1}</td>
+                  {/* <td>Reseller</td> */}      
+                  <td>{row.full_name}</td>
+                  <td>{row.username}</td>
+                  <td>{row.email_id}</td>
+                  <td>{row.mobile}</td>
+                  <td>{row.company}</td>
+                  {/* <td><a href={row.profile_pic} target="_blank" rel="noopener noreferrer">View</a></td> */}                  
+                  <td>{row.credit}</td>
+                  <td>{row.status}</td>
                   <td className="action-buttons">
                     <button className="show-data" onClick={() => handleShowDataPopup(row)}><FaEye /></button>
                     {/* <button className="show-data" onClick={() => handleShowDataPopup(row)}><Lottie animationData={Eye} />    </button> */}
