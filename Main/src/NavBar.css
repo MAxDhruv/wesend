@@ -1,0 +1,138 @@
+.navbar {
+    background-color: rgba(255, 255, 255, 0.274);
+    color: white;
+    padding: 10px 20px;
+    backdrop-filter: blur(5px);
+    top: -70px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    width: 100%;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.904);
+    position: relative;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.logo {
+    flex: 1;
+    text-align: left;
+}
+
+.logo h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.login {
+    color: #fff;
+    cursor: pointer;
+}
+
+.feedback {
+    cursor: pointer;
+    color: blue;
+}
+
+.note-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.404);
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 2px 2px 5px rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+    white-space: nowrap;
+}
+
+.note {
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    animation: blink 1.5s infinite, move 10s linear infinite;
+    color: red;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+@keyframes blink {
+    0%, 50%, 100% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0;
+    }
+}
+
+@keyframes move {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.feedback-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedback-form textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.feedback-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: blue;
+    color: white;
+    cursor: pointer;
+}
+
+.feedback {
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    margin-left: 10px; /* Adjust margin as needed */
+    padding: 8px 12px; /* Adjust padding as needed */
+    border-radius: 5px;
+    background-color: rgba(0, 0, 255, 0.63); /* Light blue background */
+    transition: background-color 0.3s ease; /* Smooth transition for background color change */
+
+    /* Optional: Hover effect */
+}
+
+.feedback:hover {
+    background-color: rgba(0, 0, 255, 0.3); /* Darker blue on hover */
+    color: white; /* Change text color on hover */
+}

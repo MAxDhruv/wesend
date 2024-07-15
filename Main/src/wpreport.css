@@ -1,0 +1,52 @@
+/* Styles for Whatsapp Report section */
+
+/* Main container */
+.whatsapp-report {
+    max-width: 600px; /* Example max-width */
+    margin: auto; /* Center align */
+  }
+  
+  /* Style for the main heading */
+  .whatsapp-report h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Flexbox layout for sub-sections */
+  .sub-sections1-1 {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Style for each sub-section */
+  .sub-section1-1-1 {
+    margin-bottom: 1rem; /* Add margin between sections */
+    padding: 1rem; /* Padding around each section */
+    border: 1px solid #ccc; /* Example border */
+    cursor: pointer; /* Pointer cursor to indicate clickability */
+  }
+  
+  /* Style for sub-menu */
+  .sub-menu {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sub-menu li {
+    cursor: pointer; /* Pointer cursor to indicate clickability */
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .whatsapp-report {
+      max-width: 100%; /* Adjust to full width on smaller screens */
+      padding: 0 1rem; /* Add padding on the sides for better readability */
+    }
+  }
+  
+  /* Optional hover effect */
+  .sub-section1-1-1:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+  }
+  

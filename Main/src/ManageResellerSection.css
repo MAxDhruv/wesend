@@ -1,0 +1,252 @@
+.ManageResellerSection {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #f0f0f0, #ffffff);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  .h3 {
+    color: black;
+  }
+  
+  .add{
+    padding: 10px;
+  }
+  .section {
+    margin-bottom: 20px;
+  }
+  h4{
+    text-align: left;
+    color: #191919;
+
+  }
+
+  .small-text {
+    font-size: 0.8em;
+    color: #555;
+  }
+  
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  form label {
+    flex: 1 1 100%;
+    font-size: 16px;
+    color: #191919;
+    text-align: left;
+  }
+  
+  form input,
+  form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  form input:focus,
+  form select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    transform: scale(1.02);
+  }
+  
+  form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  form button IoMdPersonAdd{
+    padding: 10px;
+  }
+  form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  /* Styles for action buttons */
+  .action-buttons {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .action-buttons button {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .action-buttons button:hover {
+    transform: scale(1.05);
+    border: 2px solid black;
+    border-radius: 50px 50px 50px 50px;
+  }
+  
+  .action-buttons button.show-data {
+    font-size: larger;
+    color: black;
+  }
+  
+  .action-buttons button.edit-data {
+    background-color: #ffc107;
+    color: #000;
+  }
+  
+  .action-buttons button.delete {
+    background-color: #dc3545;
+  }
+  
+  .action-buttons button:not(:last-child) {
+    margin-right: 5px;
+  }
+
+
+
+
+
+
+
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  .search-bar input,
+  .search-bar select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  .search-bar input:focus,
+  .search-bar select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    transform: scale(1.02);
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  table th,
+  table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+ 
+
+  /* Fullscreen Overlay */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure overlay appears above other content */
+    backdrop-filter: blur(8px); /* Apply blur effect to background */
+    transition: backdrop-filter 0.3s ease;
+  }
+  
+  .overlay:hover {
+    backdrop-filter: blur(12px);
+  }
+  
+  .popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Adjust width as needed */
+    max-width: 600px; /* Limit max width for larger screens */
+    max-height: 80%; /* Limit max height for smaller screens */
+    overflow: auto;
+    z-index: 1000; /* Ensure popup appears above overlay */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  .popup h2 {
+    margin-top: 0;
+  }
+  
+  .popup p {
+    margin-bottom: 10px;
+  }
+  
+  .popup button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .popup button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    .popup {
+      width: 90%; /* Adjust for smaller screens */
+      max-width: none;
+      max-height: 90%;
+    }
+  }
+  

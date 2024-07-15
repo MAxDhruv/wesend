@@ -1,0 +1,218 @@
+CampaignWiseSection.css
+
+/* Main container */
+.CampaignWiseSection {
+    font-family: 'Margarine', cursive;
+    width: 90%; /* Adjusted width for responsiveness */
+    max-width: 1200px; /* Maximum width to maintain readability */
+    margin: 20px auto;
+    color: rgb(255, 255, 255);
+    font-family: Georgia, 'Times New Roman', Times, serif; /* Maintain fallback fonts for cross-browser support */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(71, 71, 71, 0.274); /* Semi-transparent white */
+    overflow-y: auto;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    backdrop-filter: blur(10px);
+    border-radius: 8px; /* Rounded corners */
+}
+
+.lbl {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 10px 15px;
+}
+
+/* Section headers */
+.section {
+    margin-bottom: 20px;
+}
+
+/* Select dropdown wrapper */
+.select-wrapper {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Data status select dropdown */
+select.data-status,
+select.entries {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 1rem;
+    font-family: fantasy;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    outline: none; /* Remove outline */
+    appearance: none; /* Remove default arrow for customization */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    cursor: pointer;
+}
+
+select.data-status:hover,
+select.entries:hover {
+    background-color: #e6e6e6;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+select.data-status:focus,
+select.entries:focus {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Blue shadow for focus */
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    color: black;
+    background-color: #ffffff; /* White background */
+    border-radius: 8px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensure rounded corners are visible */
+}
+
+table th {
+    background-color: #008080; /* Teal background for table header */
+    color: white; /* White text for table header */
+    padding: 12px; /* Increased padding for better readability */
+    text-align: center;
+}
+
+table tr:nth-child(even) {
+    background-color: #b0e0e6; /* Light blue for even rows */
+}
+
+table th,
+table td {
+    border: 1px solid #ccc;
+    padding: 12px; /* Increased padding for better readability */
+    text-align: center;
+}
+
+.table-header {
+    background-color: #f2f2f2; /* Light gray background for headers */
+    font-weight: bold;
+}
+
+/* Filter section */
+.filter {
+    margin-bottom: 10px;
+}
+
+/* Pagination controls */
+.pagination {
+    margin-top: 10px;
+    text-align: center; /* Center align pagination controls */
+}
+
+.sbmit {
+    background-color: #33ff00c9;
+    color: black;
+    width: 100px;
+    border-radius: 20px 0 20px 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+    flex: 1;
+    margin-left: 60%;
+}
+
+.sbmit:hover {
+    background-color: #00ff80;
+    border-radius: 0 20px 0 20px;
+    
+}
+
+.dwn{
+    
+    flex: 1;
+    background-color: #00ff6265;
+    border-radius: 0 20px 0 20px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+    color: black;
+}
+.dwn:hover {
+    background-color: #33ff00c9;
+    border-radius: 20px 0 20px 0;
+}
+/* Add keyframe animation */
+@keyframes button-hover {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pagination button {
+    cursor: pointer;
+    padding: 10px 20px; /* Larger padding for better clickability */
+    margin-right: 5px;
+    background-color: #007bff; /* Blue primary color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth background color and transform transition */
+}
+
+.pagination button:hover {
+    background-color: #0056b3; /* Darker shade of blue on hover */
+    animation: button-hover 0.6s ease; /* Apply keyframe animation on hover */
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed; /* Change cursor on disabled state */
+}
+
+.pagination span {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #ffffff; /* White color for pagination text */
+}
+
+.search-bar {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  .search-bar input[type="text"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  }
+  
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .CampaignWiseSection {
+        width: 95%; /* Adjust width for smaller screens */
+        padding: 15px;
+    }
+
+    table th,
+    table td {
+        padding: 10px; /* Adjust cell padding for smaller screens */
+    }
+
+    .pagination button {
+        padding: 8px 16px; /* Adjust button padding for smaller screens */
+    }
+}
