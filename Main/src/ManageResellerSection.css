@@ -19,6 +19,11 @@
   .section {
     margin-bottom: 20px;
   }
+  h4{
+    text-align: left;
+    color: #191919;
+
+  }
   
   form {
     display: flex;
@@ -34,6 +39,8 @@
   form label {
     flex: 1 1 100%;
     font-size: 16px;
+    color: #191919;
+    text-align: left;
   }
   
   form input,

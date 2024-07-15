@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { FaEye } from "react-icons/fa6";
 import { BsFeather } from "react-icons/bs";
 import { IoMdPersonAdd } from "react-icons/io";
@@ -6,19 +7,13 @@ import { BsFillArchiveFill } from "react-icons/bs";
 import '../ManageResellerSection.css';
 
 const NewsSection = ({ handleSubsectionClick }) => {
-  const [data, setData] = useState([
-    { id: 1, col1: '1', col3: 'John Doe', col4: 'john.doe@example.com', col5: '2023-07-01', col7: 'Edit' },
-    { id: 2, col1: '2', col3: 'Jane Smith', col4: 'jane.smith@example.com', col5: '2023-07-02', col7: 'Edit' },
-    { id: 3, col1: '3', col3: 'Adam Johnson', col4: 'adam.johnson@example.com', col5: '2023-07-03', col7: 'Edit' },
-    // Additional data rows as needed
-  ]);
-
+  const [data, setData] = useState([]);
   const [newReseller, setNewReseller] = useState({
-    col1: '', // Sr No. (Auto-generated)
-    col3: '', // Full Name
-    col4: '', // Email
-    col5: new Date().toISOString().split('T')[0], // Date (auto-generated)
-    col7: 'Edit', // Action (default: Edit)
+    col1: '',
+    col3: '',
+    col4: '',
+    col5: new Date().toISOString().split('T')[0],
+    col7: 'Edit',
   });
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,72 +21,81 @@ const NewsSection = ({ handleSubsectionClick }) => {
   const [showDataPopup, setShowDataPopup] = useState(false);
   const [editDataPopup, setEditDataPopup] = useState(false);
   const [selectedReseller, setSelectedReseller] = useState(null);
-  const [editedReseller, setEditedReseller] = useState(null); // State to hold edited data
+  const [editedReseller, setEditedReseller] = useState(null);
 
-  // Function to handle adding a new reseller
-  const handleAddReseller = (e) => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/news/');
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching data from API:', error);
+    }
+  };
+
+  const handleAddReseller = async (e) => {
     e.preventDefault();
-    const newId = data.length + 1;
-    const updatedData = [...data, {
-      id: newId,
-      col1: newId.toString(), // Auto-generated Sr No.
-      col3: newReseller.col3,
-      col4: newReseller.col4,
-      col5: new Date().toISOString().split('T')[0], // Auto-generated Date
-      col7: newReseller.col7
-    }];
-    setData(updatedData);
+    const newNews = {
+      heading: newReseller.col3,
+      description: newReseller.col4,
+      date: new Date().toISOString(),
+    };
+
+    try {
+      await axios.post('http://127.0.0.1:8000/api/news/', newNews);
+      fetchData(); // Refresh data after adding new entry
+    } catch (error) {
+      console.error('Error adding new data:', error);
+    }
+
     setNewReseller({
-      col1: '', // Reset Sr No. for next addition
-      col3: '', // Full Name
-      col4: '', // Email
-      col5: new Date().toISOString().split('T')[0], // Date (auto-generated)
-      col7: 'Edit', // Action (default: Edit)
+      col1: '',
+      col3: '',
+      col4: '',
+      col5: new Date().toISOString().split('T')[0],
+      col7: 'Edit',
     });
   };
 
-  // Function to handle input change for adding new reseller
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewReseller(prevState => ({
+    setNewReseller((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  // Function to handle search term change
   const handleSearchTermChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // Function to handle date filter change
   const handleDateFilterChange = (e) => {
     setDateFilter(e.target.value);
   };
 
-  // Function to handle showing data popup
   const handleShowDataPopup = (reseller) => {
     setSelectedReseller(reseller);
     setShowDataPopup(true);
   };
 
-  // Function to handle editing data popup
   const handleEditDataPopup = (reseller) => {
     setSelectedReseller(reseller);
-    setEditedReseller({ ...reseller }); // Copy the selected reseller to editedReseller
+    setEditedReseller({ ...reseller });
     setEditDataPopup(true);
   };
 
-  // Function to handle saving edited data
   const handleSaveChanges = (e) => {
     e.preventDefault();
-    // Update the data array with the edited reseller
-    const updatedData = data.map(item => (item.id === editedReseller.id ? editedReseller : item));
+    const updatedData = data.map((item) =>
+      item.id === editedReseller.id ? editedReseller : item
+    );
     setData(updatedData);
-    handleClosePopup(); // Close the edit popup after saving
+    handleClosePopup();
   };
 
-  // Function to handle closing popup
   const handleClosePopup = () => {
     setEditDataPopup(false);
     setShowDataPopup(false);
@@ -99,32 +103,32 @@ const NewsSection = ({ handleSubsectionClick }) => {
     setEditedReseller(null);
   };
 
-  // Function to handle deleting a reseller
-  const handleDeleteReseller = (id) => {
-    const updatedData = data.filter(item => item.id !== id);
-    setData(updatedData);
+  const handleDeleteReseller = async (id) => {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/news/${id}/`);
+      fetchData(); // Refresh data after deleting entry
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
   };
 
-  // Function to filter data based on search term and date filter
-  const filteredData = data.filter(item => {
-    const matchesSearchTerm = searchTerm === '' || item.col4.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDateFilter = dateFilter === '' || item.col5 === dateFilter;
+  const filteredData = data.filter((item) => {
+    const matchesSearchTerm = searchTerm === '' || item.heading.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDateFilter = dateFilter === '' || item.date.split('T')[0] === dateFilter;
     return matchesSearchTerm && matchesDateFilter;
   });
 
-  // Render the table headers and data
   return (
     <div className="ManageResellerSection">
-      {/* Overlay for popups */}
       {(showDataPopup || editDataPopup) && (
         <div className="overlay" onClick={handleClosePopup}>
           <div className="popup" onClick={(e) => e.stopPropagation()}>
             {showDataPopup && (
               <div className="popup-content">
                 <h2 style={{ color: 'black' }}>User Data</h2>
-                <p><strong>Full Name:</strong> {selectedReseller.col3}</p>
-                <p><strong>Email:</strong> {selectedReseller.col4}</p>
-                <p><strong>Date:</strong> {selectedReseller.col5}</p>
+                <p><strong>Heading:</strong> {selectedReseller.heading}</p>
+                <p><strong>Description:</strong> {selectedReseller.description}</p>
+                <p><strong>Date:</strong> {selectedReseller.date}</p>
                 <button onClick={handleClosePopup}>Close</button>
               </div>
             )}
@@ -134,12 +138,24 @@ const NewsSection = ({ handleSubsectionClick }) => {
                 <h2 style={{ color: 'black' }}>Edit Reseller</h2>
                 <form onSubmit={handleSaveChanges}>
                   <label>
-                    Full Name:
-                    <input type="text" name="col3" value={editedReseller.col3} onChange={(e) => setEditedReseller({ ...editedReseller, col3: e.target.value })} required />
+                    Heading:
+                    <input
+                      type="text"
+                      name="heading"
+                      value={editedReseller.heading}
+                      onChange={(e) => setEditedReseller({ ...editedReseller, heading: e.target.value })}
+                      required
+                    />
                   </label>
                   <label>
-                    Email:
-                    <input type="email" name="col4" value={editedReseller.col4} onChange={(e) => setEditedReseller({ ...editedReseller, col4: e.target.value })} required />
+                    Description:
+                    <input
+                      type="text"
+                      name="description"
+                      value={editedReseller.description}
+                      onChange={(e) => setEditedReseller({ ...editedReseller, description: e.target.value })}
+                      required
+                    />
                   </label>
                   <button type="submit">Save Changes</button>
                   <button type="button" onClick={handleClosePopup}>Cancel</button>
@@ -150,26 +166,37 @@ const NewsSection = ({ handleSubsectionClick }) => {
         </div>
       )}
 
-      {/* Other content of your component */}
       <div className="section">
+        <h4>Send News</h4>
         <form onSubmit={handleAddReseller}>
           <label>
-            Full Name:
-            <input type="text" name="col3" value={newReseller.col3} onChange={handleInputChange} required />
+            Heading
+            <input
+              type="text"
+              name="col3"
+              value={newReseller.col3}
+              onChange={handleInputChange}
+              required
+            />
           </label>
           <label>
-            Email:
-            <input type="email" name="col4" value={newReseller.col4} onChange={handleInputChange} required />
+            Description:
+            <input
+              type="text"
+              name="col4"
+              value={newReseller.col4}
+              onChange={handleInputChange}
+              required
+            />
           </label>
-          <button type="submit"><IoMdPersonAdd /> Add News</button>
+          <button type="submit"><IoMdPersonAdd /> Submit</button>
         </form>
       </div>
       <div className="section">
-        {/* Search bar and Date filter */}
         <div className="search-bar">
           <input
             type="text"
-            placeholder="Search by Email..."
+            placeholder="Search by Heading..."
             value={searchTerm}
             onChange={handleSearchTermChange}
           />
@@ -180,27 +207,24 @@ const NewsSection = ({ handleSubsectionClick }) => {
           />
         </div>
 
-        {/* Table */}
         <div className="table-container">
           <table>
             <thead>
               <tr>
                 <th>Sr No.</th>
-                <th>User Type</th>
-                <th>Full Name</th>
-                <th>Email</th>
+                <th>Heading</th>
+                <th>Description</th>
                 <th>Date</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredData.map(row => (
+              {filteredData.map((row, index) => (
                 <tr key={row.id}>
-                  <td>{row.col1}</td>
-                  <td>Reseller</td>
-                  <td>{row.col3}</td>
-                  <td>{row.col4}</td>
-                  <td>{row.col5}</td>
+                  <td>{index + 1}</td>
+                  <td>{row.heading}</td>
+                  <td>{row.description}</td>
+                  <td>{new Date(row.date).toISOString().split('T')[0]}</td>
                   <td className="action-buttons">
                     <button className="show-data" onClick={() => handleShowDataPopup(row)}><FaEye /></button>
                     <button className="edit-data" onClick={() => handleEditDataPopup(row)}><BsFeather /></button>
