@@ -1,70 +1,59 @@
-import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import SendWhatsapp from './SendWhatsapp';
+// import React from 'react';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import Dashboard from '../src/Component/dashbord';
+// import Login from '../src/Component/login';
+// import SignIn from '../src/Component/signin';
+// import ManageResellerSection from '../src/Component/ManageResellerSection'; 
+// import { CreditProvider } from '../src/Component/CreditContext'; // Import CreditProvider
+// import './App.css';
+
+// const App = () => {
+//   return (
+//     <CreditProvider> {/* Wrap the application with CreditProvider */}
+//       <Router>
+//         <div className="App">
+//           <header className="App-header">
+//             <Routes>
+//               <Route path="/" element={<Login />} />
+//               <Route path="/signin" element={<SignIn />} />
+//               <Route path="/dashboard" element={<Dashboard />} />
+//               <Route path="/manage-reseller" element={<ManageResellerSection />} />
+//             </Routes>
+//           </header>
+//         </div>
+//       </Router>
+//     </CreditProvider>
+//   );
+// };
+
+// export default App;
+
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from '../src/Component/dashbord';
+import Login from '../src/Component/login';
+import SignIn from '../src/Component/signin';
+import ManageResellerSection from '../src/Component/ManageResellerSection'; 
+import CreditProvider from '../src/Component/CreditContext'; // Corrected import statement
 import './App.css';
 
-
-
-
-
-
-import ProfileUpdateForm from './Components/ProfileUpdateForm';
-// import ChangePasswordForm from './Components/ChangePasswordForm';
-
 const App = () => {
-  const [view, setView] = useState('');
-
-  const renderView = () => {
-    switch (view) {
-      case 'Dashboard':
-        return <div>Dashboard Content</div>;
-      case 'Send Domestic':
-        return <SendWhatsapp />;
-      case 'Send International':
-        return  <SendWhatsapp />;
-      case 'Send Campaign':
-        return  <SendWhatsapp />;
-      case 'Whatsapp Report Option 1':
-        return <div>Campaign Wise Report Content</div>;
-      case 'Whatsapp Report Option 2':
-        return <div>Search Mobile No Report Content</div>;
-      case 'Credit Report Option 1':
-        return <div>Reseller Report Content</div>;
-      case 'Credit Report Option 2':
-        return <div>User Report Content</div>;
-      case 'Manage Reseller':
-        return <div>Reseller Report Content</div>;
-      case 'User Settings':
-        return <div>User Settings Content</div>;
-      case 'Settings Option 1':
-        return   <ProfileUpdateForm />;
-      case 'Settings Option 2':
-        // return <ChangePasswordForm />;
-      case 'Notifications':
-        return <div>Notifications Content</div>;
-      case 'Tree View':
-        return <div>Tree View Content</div>;
-      case 'Contact Us':
-        return <div>Contact Us Content</div>;
-      case 'Invite Friends': 
-        return <div>Invite Friends Content</div>;
-      default:
-        return <div>Welcome</div>;
-    }
-  };
-
   return (
-    <div className="app">
-      <header className="header">
-        <div className="home">
-          <h2>Hello, Shankar Rathod</h2>
+    <CreditProvider> {/* Wrap the application with CreditProvider */}
+      <Router>
+        <div className="App">
+          <header className="App-header">
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/manage-reseller" element={<ManageResellerSection />} />
+            </Routes>
+          </header>
         </div>
-      </header>
-      <Sidebar setView={setView} />
-      <div className="content">
-        {renderView()}
-      </div>
-    </div>
+      </Router>
+    </CreditProvider>
   );
 };
 

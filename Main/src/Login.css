@@ -1,0 +1,108 @@
+/* Login.css */
+
+.cont {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #e7cfcf00;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+.cont h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333; /* Darkened the heading color */
+}
+
+.cont form {
+    /* background-image: url('../src/assets/wp1.jpg'); */
+  display: flex;
+  flex-direction: column;
+}
+
+.cont form div {
+  margin-bottom: 15px; /* Increased margin for better separation */
+}
+
+.cont label {
+  font-weight: bold;
+  margin-bottom: 5px; /* Added space below labels */
+  color: #000000; /* Slightly muted label color */
+}
+
+.cont input[type="text"],
+.cont input[type="password"],
+.cont input[type="submit"],
+.cont input[type="button"],
+.cont input[type="reset"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px; /* Increased font size for better readability */
+  margin-top: 8px; /* Adjusted spacing between inputs */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for transform and box-shadow */
+  box-shadow: 0 0 0 transparent; /* Initial transparent box-shadow */
+}
+
+.cont input[type="text"]:focus,
+.cont input[type="password"]:focus,
+.cont input[type="submit"]:focus,
+.cont input[type="button"]:focus,
+.cont input[type="reset"]:focus,
+.cont input[type="text"].captcha:focus {
+  outline: none;
+  border-color: #4CAF50; /* Highlight input on focus */
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.8); /* Enhanced 3D effect box-shadow */
+  transform: scale(1.03); /* Slight scale increase on focus */
+}
+
+.cont .captcha-container {
+  background-color: #e2e2e2;
+  padding: 10px;
+  display: inline-block;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.cont .error {
+  color: red;
+  margin-top: 8px; /* Adjusted margin for error message */
+}
+
+.cont .lgn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px; /* Increased margin for button */
+  transition: background-color 0.3s ease-in-out; /* Smooth transition for button color */
+}
+
+.cont .lgn:hover {
+  background-color: #45a049;
+}
+
+.cont p {
+  text-align: center;
+  margin-top: 15px; /* Increased margin for paragraph */
+  color: #000000; /* Slightly muted text color */
+}
+
+.cont p a {
+  text-decoration: none;
+  color: #007bff;
+  transition: color 0.3s ease-in-out; /* Smooth transition for link color */
+}
+
+.cont p a:hover {
+  text-decoration: underline;
+  color: #0056b3; /* Darkened link color on hover */
+}
